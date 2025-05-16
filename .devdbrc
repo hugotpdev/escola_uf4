@@ -1,0 +1,6 @@
+[
+  {
+    "type": "sqlite",
+    "path": "/home/linux/projecte/escola/escola-api/database/database.sqlite"
+  }
+]
