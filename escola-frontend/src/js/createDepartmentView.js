@@ -1,43 +1,89 @@
-import Common from "./common.js";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Common from '../services/common';
 
-const btnCancel = document.querySelector('#btnCancel');
-const btnSave = document.querySelector('#btnSave');
-const inputs = document.querySelectorAll('input');
+export default function CreateDepartment() {
+  const navigate = useNavigate();
 
-btnCancel.addEventListener('click', () => window.location.href = './department.html');
+  const [form, setForm] = useState({
+    name: '',
+  });
 
-btnSave.addEventListener('click', () => {
-    
-    const data = {};
+  const [errors, setErrors] = useState({});
 
-    inputs.forEach(input => {
-        const name = input.name;
-        if (!regularExp[name].test(input.value.trim())) 
-            input.classList.add('input-error');
-        else
-            data[name] = input.value;
+  const regularExp = {
+    name: /^[A-Za-zÁÉÍÓÚÑáéíóúñü\s]{1,}$/, // Letras y espacios
+  };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+
+    if (regularExp[name].test(value.trim())) {
+      setErrors((prev) => ({ ...prev, [name]: false }));
+    } else {
+      setErrors((prev) => ({ ...prev, [name]: true }));
+    }
+  };
+
+  const handleSave = () => {
+    let hasError = false;
+    const newErrors = {};
+
+    for (let key in form) {
+      if (!regularExp[key].test(form[key].trim())) {
+        newErrors[key] = true;
+        hasError = true;
+      }
+    }
+
+    setErrors(newErrors);
+
+    if (hasError) return;
+
+    Common.setDepartment(form, () => {
+      navigate('/department');
     });
+  };
 
-    if(document.querySelector('.input-error'))
-        return;
+  return (
+    <>
+      <header className="header">
+        <button className="btn--action" onClick={() => navigate('/')}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-log-out-icon"><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></svg>
+        </button>
+      </header>
 
-    Common.setDepartment(data, () => {
-        window.location.href = './department.html';
-    });
-});
+      <main>
+        <section className="content__create">
+          <header>
+            <h1 className="tlt">Nuevo Departamento</h1>
+          </header>
 
-inputs.forEach( input => {
-    input.addEventListener('input', e => {
-        let name = e.target.name;
-        if(regularExp[name].test(e.target.value.trim()))
-            e.target.classList.remove('input-error');
-        else
-            e.target.classList.add('input-error');
-    })
-});
+          <form>
+            <div className="divInput">
+              <p>Nombre<span className="mandatory">*</span></p>
+              <input
+                type="text"
+                name="name"
+                placeholder="Nombre"
+                value={form.name}
+                onChange={handleInputChange}
+                className={errors.name ? 'input-error' : ''}
+              />
+            </div>
+          </form>
 
-const regularExp = {
-    name: /^[A-Za-zÁÉÍÓÚÑáéíóúñü\s]{1,}$/ // Nombre: admite letras (mayúsculas o minúsculas), espacios, y caracteres especiales como tildes y ñ.
-};
-    
+          <div className="form__divBtn">
+            <button type="button" className="secondaryBtn" onClick={() => navigate('/department')}>
+              Cancelar
+            </button>
+            <button type="button" className="primaryBtn" onClick={handleSave}>
+              Guardar
+            </button>
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}

@@ -387,18 +387,11 @@
     margin-top: 5px;
     padding-left: 5px;
   }
-
-  #login-container {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
   
   #login-container {
+    position: absolute;
+    top: calc(50% - 200px);
+    left: calc(50% - 200px);
     background-color: white;
     padding: 3rem;
     border-radius: 16px;

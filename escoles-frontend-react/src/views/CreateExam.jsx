@@ -1,0 +1,137 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Common from '../services/common';
+
+export default function CreateExam() {
+  const [formData, setFormData] = useState({
+    description: '',
+    exam_date: '',
+    course_id: '',
+    subject_id: '',
+  });
+
+  const [subjects, setSubjects] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
+  const regex = {
+    description: /^[A-Za-zÁÉÍÓÚÑáéíóúñü\s]{1,50}$/,
+    exam_date: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
+  };
+
+  useEffect(() => {
+    Common.getListCourse(setCourses);
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === 'course_id') {
+      setFormData((prev) => ({ ...prev, subject_id: '' }));
+      Common.getSubjectsOfCourse(value, setSubjects);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newErrors = {};
+
+    // Validaciones específicas
+    if (!formData.description || !regex.description.test(formData.description.trim()))
+      newErrors.description = true;
+
+    if (!formData.exam_date || !regex.exam_date.test(formData.exam_date.trim()))
+      newErrors.exam_date = true;
+
+    if (!formData.course_id)
+      newErrors.course_id = true;
+
+    if (!formData.subject_id)
+      newErrors.subject_id = true;
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) return;
+
+    Common.setExam(formData, () => navigate('/exam'));
+  };
+
+  return (
+    <main>
+      <section className="content__create">
+        <header>
+          <h1 className="tlt">Nuevo examen</h1>
+        </header>
+        <form onSubmit={handleSubmit}>
+          <div className="divInput">
+            <p>Descripción<span className="mandatory">*</span></p>
+            <input
+              type="text"
+              name="description"
+              placeholder="Descripción"
+              value={formData.description}
+              onChange={handleChange}
+              className={errors.description ? 'input-error' : ''}
+            />
+          </div>
+
+          <div className="divInput">
+            <p>Fecha y hora<span className="mandatory">*</span></p>
+            <input
+              type="datetime-local"
+              name="exam_date"
+              value={formData.exam_date}
+              onChange={handleChange}
+              className={errors.exam_date ? 'input-error' : ''}
+            />
+          </div>
+
+          <div className="divInput">
+            <p>Curso<span className="mandatory">*</span></p>
+            <select
+              name="course_id"
+              value={formData.course_id}
+              onChange={handleChange}
+              className={errors.course_id ? 'input-error' : ''}
+            >
+              <option value="">Selecciona un curso</option>
+              {courses.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="divInput">
+            <p>Asignatura<span className="mandatory">*</span></p>
+            <select
+              name="subject_id"
+              value={formData.subject_id}
+              onChange={handleChange}
+              className={errors.subject_id ? 'input-error' : ''}
+            >
+              <option value="">Selecciona una asignatura</option>
+              {subjects.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form__divBtn">
+            <button type="button" className="secondaryBtn" onClick={() => navigate('/exam')}>
+              Cancelar
+            </button>
+            <button type="submit" className="primaryBtn">
+              Guardar
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
+  );
+}
