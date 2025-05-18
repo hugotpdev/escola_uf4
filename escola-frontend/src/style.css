@@ -355,3 +355,31 @@ select{
 #btnCloseModal:focus {
   outline: none;
 }
+
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  opacity: 0.95;
+  transition: opacity 0.3s ease;
+}
+
+.alert-success {
+  background-color: #2ecc71; 
+}
+
+.alert-error {
+  background-color: #e74c3c; 
+}
+
+.textErrorInput{
+  color: red;
+  margin-top: 5px;
+  padding-left: 5px;
+}

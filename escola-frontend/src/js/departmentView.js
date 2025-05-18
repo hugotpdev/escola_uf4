@@ -1,22 +1,6 @@
 import Common from "./common.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-    Common.getListDepartment(departments => {
-            if(departments.length == 0)
-                return;
-            
-            createTable(departments);
-
-            const btns = document.querySelectorAll('.delete-btn'); 
-  
-            btns.forEach( btn => {
-                btn.addEventListener('click', e => {
-                    const id = e.target.closest('.delete-btn').id;
-                    deleteDepartment(id);
-                });
-            });
-    });
-});
+document.addEventListener('DOMContentLoaded', crearHTML );
 
 function createTable(departments){
     let contentTable = `
@@ -41,7 +25,7 @@ function createTable(departments){
                         </button>
                     </div>
                     <div class="td">
-                        <button class="btn--action">
+                        <button class="btn--action update-btn" id="${department.id}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
                         </button>
                         <button class="btn--action delete-btn" id="${department.id}">
@@ -57,20 +41,78 @@ function createTable(departments){
 
 function deleteDepartment(id){
         Common.deleteDepartment(id, () => {
-            Common.getListDepartment(departments => {
-                if(departments.length == 0)
-                    return;
-                
-                createTable(departments);
-    
-                const btns = document.querySelectorAll('.delete-btn'); 
-      
-                btns.forEach( btn => {
-                    btn.addEventListener('click', e => {
-                        const id = e.target.closest('.delete-btn').id;
-                        deleteDepartment(id);
-                    });
-                });
-        });
+            crearHTML();
         }); 
 }      
+
+function createModal(id){
+    const fondo = document.createElement('DIV');
+    fondo.classList.add('fondoModal');
+
+    Common.getTeachersOfDepartment(id, teachers => {
+
+            let content = '';
+
+            teachers.forEach( teacher => {
+                content += `
+                <li>
+                    ${teacher.user.first_name}
+                </li>
+                `;
+            });
+
+            fondo.innerHTML = `
+                <div class="modal">
+                    <h1>Asignaturas</h1>
+                    <ul>
+                        ${content || 'No tiene profesores'}
+                    </ul>
+                    <div>
+                        <button id="btnCloseModal">Cerrar</button>
+                    </div>
+                </div>
+            `;
+                
+
+            const btn = fondo.querySelector('#btnCloseModal');
+            btn.addEventListener('click', () => {
+                fondo.remove()
+            });
+
+            document.body.appendChild(fondo);
+        }); 
+        
+
+}
+
+function crearHTML(){
+    Common.getListDepartment(departments => {
+        if(departments.length == 0)
+            return;
+        
+        createTable(departments);
+
+        const btns = document.querySelectorAll('.delete-btn'); 
+        const allBtnTeachers = document.querySelectorAll('.id-teachers');
+        const allBtnUpdate = document.querySelectorAll('.update-btn');
+
+        btns.forEach( btn => {
+            btn.addEventListener('click', e => {
+                const id = e.target.closest('.delete-btn').id;
+                deleteDepartment(id);
+            });
+        });
+
+        allBtnTeachers.forEach( btn => {
+            btn.addEventListener('click', e => {
+                createModal(e.target.closest('button').id);
+            })
+        });   
+
+        allBtnUpdate.forEach( btn => {
+            btn.addEventListener('click', e => {
+                window.location.href = `./updateDepartment.html?id=${e.target.closest('.update-btn').id}`;
+            })
+        }); 
+});
+}
