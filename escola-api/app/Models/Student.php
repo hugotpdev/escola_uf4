@@ -15,9 +15,15 @@ class Student extends Model
         'enrollment_year',
     ];
 
-    // Relación con el modelo User
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class)->with('subject');
+    }
+    
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Student;
 use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
@@ -69,6 +70,28 @@ class StudentController extends Controller
         }
     }
 
+    public function update(UpdateStudentRequest $request, $id)
+    {
+        $student = Student::with('user')->findOrFail($id);
+
+        $student->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'dni' => $request->dni,
+        ]);
+
+        $student->user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $student->user->password = bcrypt($request->password);
+        }
+
+        $student->user->save();
+
+        return response()->json($student->load('user'));
+    }
+
+
     public function destroy($id)
     {
         DB::beginTransaction();
@@ -94,6 +117,12 @@ class StudentController extends Controller
                 'details' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function showEnrollments($id)
+    {
+        $student = Student::with(['enrollments.subject'])->findOrFail($id);
+        return response()->json($student->enrollments);
     }
 
 }

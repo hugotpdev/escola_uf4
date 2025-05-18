@@ -1,65 +1,77 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Teacher;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Str;
+use App\Http\Requests\StoreTeacherRequest;
+use App\Http\Requests\UpdateTeacherRequest;
 
 class TeacherController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $teachers = Teacher::with(['user', 'department'])->get();
+        return response()->json($teachers);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show($id)
     {
-        //
+        $teacher = Teacher::with(['user', 'department'])->findOrFail($id);
+        return response()->json($teacher);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreTeacherRequest $request)
     {
-        //
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'user_type' => 'teacher',
+        ]);
+
+        $teacher = Teacher::create([
+            'user_id' => $user->id,
+            'department_id' => $request->department_id,
+        ]);
+
+        return response()->json([
+            'message' => 'Profesor creado correctamente',
+            'teacher' => $teacher->load('user'),
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Teacher $teacher)
+    public function update(UpdateTeacherRequest $request, $id)
     {
-        //
+        $teacher = Teacher::with('user')->findOrFail($id);
+
+        $teacher->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'department_id' => $request->department_id,
+        ]);
+
+        $teacher->user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $teacher->user->password = bcrypt($request->password);
+        }
+
+        $teacher->user->save();
+
+        return response()->json($teacher->load('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Teacher $teacher)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Teacher $teacher)
+    public function destroy($id)
     {
-        //
-    }
+        $teacher = Teacher::findOrFail($id);
+        $teacher->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Teacher $teacher)
-    {
-        //
+        $teacher->user()->delete();
+
+        return response()->json(['message' => 'Profesor eliminado correctamente']);
     }
 }
+
