@@ -3,7 +3,7 @@ const token = localStorage.getItem('token');
 
 export default class Common {
 
-    /* ---- LOGIN ---- */
+    /* ---- ATUH ---- */
 
     static login(login, cb) {
         fetch(`${url}/login`, {
@@ -30,6 +30,33 @@ export default class Common {
         })
         .catch(error => {
             this.alert(error.message, true );
+        });
+    }
+
+    static logout() {
+        fetch(`${url}/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    throw errorData;
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            localStorage.removeItem('token'); 
+        
+            window.location.href = '/login.html';
+        })
+        .catch(error => {
+            this.errorInputs(error.errors || {});
         });
     }
 

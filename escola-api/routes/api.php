@@ -22,6 +22,8 @@ Route::get('/user', function (Request $request) {
 
 
 Route::middleware(['auth:sanctum', 'isAdmin'])->group(function () {
+
+    Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
     
     Route::apiResource('students', StudentController::class);
     Route::get('/students/{id}/enrollments', [StudentController::class, 'showEnrollments']);
