@@ -1,0 +1,458 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 6px;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background: #339DFF;
+    border-radius: 6px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  body{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 10px 10px 10px;
+    background-color: #EFF3F6;
+    height: 100vh;
+    width: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* ---- HEADER ----  */
+  
+  .header{
+    height: 40px;
+    width: 100%;
+    background-color: white;
+    border-radius: 0 0 12px 12px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 0 15px;
+  }
+  
+  /* ---- MAIN ---- */
+  
+  main{
+    display: flex;
+    height: calc(100% - 40px - 10px);
+    width: 100%;
+    gap: 10px;
+  }
+  
+  /* -- MENU -- */
+  
+  .menu{
+    height: 100%;
+    width: 15%;
+    background-color: white;
+    border-radius: 12px;
+  }
+  
+  .menu__ul{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+    padding: 20px;
+  }
+  
+  .menu__li{
+    padding: 10px 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .menu__li:hover{
+    background-color: #EBF5FF;
+  }
+  
+  .menu__li:hover .menu__a {
+    color: #339DFF;
+  }
+  
+  .menu__li:hover svg {
+    stroke: #339DFF;
+  }
+  
+  .menu__a{
+    text-decoration: none;
+    color: #9DB5C8;
+  }
+  
+  /* -- CONTENT -- */
+  
+  .content{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-height: 100%;
+    border-radius: 12px;
+    background-color: white;
+    padding: 50px 100px;
+  }
+  
+  /* Header */
+  
+  .tlt{
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .header__btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid #EBF5FF;
+    padding: 15px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+  
+  
+  .header__btn:hover{
+    background-color: #EBF5FF;
+  }
+  
+  /* Tabla */
+  
+  .table {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .thead {
+    display: flex;
+    background-color: #EFF3F6;
+    border-radius: 8px;
+    padding: 2px 5px;
+    font-weight: bold;
+  }
+  
+  .th {
+    flex: 1;
+    text-align: left;
+    padding: 5px 0 5px 5px;
+    border-radius: 8px;
+  }
+  
+  .tbody {
+    flex: 1;
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  /*.tbody::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  .tbody::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 6px;
+  }
+  
+  .tbody::-webkit-scrollbar-thumb {
+    background: #339DFF; 
+    border-radius: 6px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  }*/
+  
+  .tr{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #EBF5FF;
+  }
+  
+  .td{
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    padding: 15px 10px;
+  }
+  
+  .btn--action{
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border: 1px solid #EBF5FF;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  /* CREATE USER */
+  
+  form{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    width: 90%;
+    max-height: 90%;
+    gap: 50px;
+    overflow-y: auto;
+  }
+  
+  .input-error{
+    border: 1px solid red;
+  }
+  
+  .divInput{
+    width: 33%;
+    max-width: 400px;
+  }
+  
+  input{
+    border: 1px solid #9DB5C8;
+    border-radius: 10px;
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    outline: none;
+    margin-top: 10px;
+  }
+  
+  select{
+    border: 1px solid #9DB5C8;
+    border-radius: 10px;
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    outline: none;
+    margin-top: 10px;
+    background-color: white;
+  }
+  
+  .mandatory{
+    color: red;
+    margin-left: 5px;
+    font-size: 26px;
+  }
+  
+  .content__create{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-height: 100%;
+    border-radius: 12px;
+    background-color: white;
+    padding: 50px 100px;
+    position: relative;
+  }
+  
+  .form__divBtn{
+    position: absolute;
+    display: flex;
+    gap: 20px;
+    bottom: 35px;
+    right: 35px;
+  }
+  
+  .primaryBtn{
+    height: 40px;
+    background-color: #339DFF;
+    color: white;
+    border: none;
+    padding: 0 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .secondaryBtn{
+    height: 40px;
+    background-color: #EBF5FF;
+    color: #339DFF;
+    border: none;
+    padding: 0 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  /* MODAL */
+  .fondoModal{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 20px);
+    height: calc(100vh - 10px);
+    background-color: rgba(255, 255, 255, 0.384);
+  }
+  
+  .modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    max-width: 90%;
+    text-align: center;
+  }
+  
+  /* Título dentro del modal */
+  .modal h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo de la lista de asignaturas */
+  .modal ul {
+    list-style-type: none;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    max-height: 40vh;
+  }
+  
+  .modal ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    border-bottom: 1px solid #EBF5FF;
+    padding: 10px 0;
+    font-size: 16px; 
+    color: #333;
+  }
+  
+  /* Botón de cerrar */
+  #btnCloseModal {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #btnCloseModal:hover {
+    background-color: #0056b3;
+  }
+  
+  #btnCloseModal:focus {
+    outline: none;
+  }
+  
+  .alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    opacity: 0.95;
+    transition: opacity 0.3s ease;
+  }
+  
+  .alert-success {
+    background-color: #2ecc71; 
+  }
+  
+  .alert-error {
+    background-color: #e74c3c; 
+  }
+  
+  .textErrorInput{
+    color: red;
+    margin-top: 5px;
+    padding-left: 5px;
+  }
+
+  #login-container {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  #login-container {
+    background-color: white;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #login-title {
+    text-align: center;
+    color: #007BFF;
+    margin-bottom: 24px;
+  }
+  
+  #login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+  
+  #login-form input {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+  }
+  
+  #login-btn {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  #login-btn:hover {
+    background-color: #005bb5;
+  }
+
+  #root{
+    height: 100vh;
+  }
+  
+  @media (max-width: 1300px) {
+    .menu__li > svg {
+      display: none;
+    }
+  }
