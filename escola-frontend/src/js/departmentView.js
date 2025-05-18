@@ -87,8 +87,6 @@ function createModal(id){
 
 function crearHTML(){
     Common.getListDepartment(departments => {
-        if(departments.length == 0)
-            return;
         
         createTable(departments);
 

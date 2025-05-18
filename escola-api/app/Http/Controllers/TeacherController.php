@@ -46,22 +46,26 @@ class TeacherController extends Controller
     {
         $teacher = Teacher::with('user')->findOrFail($id);
 
+        // Actualiza solo el campo de Teacher
         $teacher->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
             'department_id' => $request->department_id,
         ]);
 
-        $teacher->user->email = $request->email;
+        // Actualiza campos del modelo User
+        $user = $teacher->user;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
 
         if ($request->filled('password')) {
-            $teacher->user->password = bcrypt($request->password);
+            $user->password = bcrypt($request->password);
         }
 
-        $teacher->user->save();
+        $user->save();
 
         return response()->json($teacher->load('user'));
     }
+
 
 
     public function destroy($id)

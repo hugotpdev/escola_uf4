@@ -75,11 +75,11 @@ class StudentController extends Controller
         $student = Student::with('user')->findOrFail($id);
 
         $student->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
             'dni' => $request->dni,
         ]);
 
+        $student->user->first_name = $request->first_name;
+        $student->user->last_name = $request->last_name;
         $student->user->email = $request->email;
 
         if ($request->filled('password')) {
@@ -90,6 +90,7 @@ class StudentController extends Controller
 
         return response()->json($student->load('user'));
     }
+
 
 
     public function destroy($id)

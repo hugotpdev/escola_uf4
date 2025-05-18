@@ -1,5 +1,14 @@
 const url = import.meta.env.VITE_API_URL;
 const token = localStorage.getItem('token');
+const view = {
+    student: "../views/student.html",
+    teacher: "../views/teacher.html",
+    department: "../views/department.html",
+    degree: "../views/degree.html",
+    course: "../views/course.html",
+    subject: "../views/subject.html",
+    exam: "../views/exam.html",
+}
 
 export default class Common {
 
@@ -52,7 +61,7 @@ export default class Common {
         })
         .then(data => {
             localStorage.removeItem('token'); 
-        
+            
             window.location.href = '/login.html';
         })
         .catch(error => {
@@ -71,11 +80,9 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok)           
+                throw new Error("No se ha podido obtener el estudiante");
+            
             return response.json();
         })
         .then(data => {
@@ -83,6 +90,7 @@ export default class Common {
         })
         .catch(error => {
             this.alert(error.message, true );
+            this.goToList(view.student);
         });
     }
 
@@ -95,11 +103,9 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok)
+                throw new Error("Error al obtener los estudiantes");
+            
             return response.json();
         })
         .then(data => {
@@ -171,11 +177,9 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido eliminar el estudiante");
+
             return response.json();
         })
         .then(data => {
@@ -195,11 +199,9 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido obtener las inscripciones del estudiante");
+            
             return response.json();
         })
         .then(data => {
@@ -221,11 +223,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido obtener el profesor");
             return response.json();
         })
         .then(data => {
@@ -233,6 +232,7 @@ export default class Common {
         })
         .catch(error => {
             this.alert(error.message, true );
+            this.goToList(view.teacher);
         });
     }
 
@@ -245,11 +245,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener los profesores");
             return response.json();
         })
         .then(data => {
@@ -321,11 +318,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido eliminar el profesor");
             return response.json();
         })
         .then(data => {
@@ -347,11 +341,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido obtener el departamento");
             return response.json();
         })
         .then(data => {
@@ -359,6 +350,7 @@ export default class Common {
         })
         .catch(error => {
             this.alert(error.message, true );
+            this.goToList(view.student);
         });
     }
 
@@ -371,11 +363,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener los departamentos");
             return response.json();
         })
         .then(data => {
@@ -447,11 +436,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido eliminar el departamento");
             return response.json();
         })
         .then(data => {
@@ -472,11 +458,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener los profesores del departamento");
             return response.json();
         })
         .then(data => {
@@ -498,11 +481,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido obtener el grado");
             return response.json();
         })
         .then(data => {
@@ -510,6 +490,7 @@ export default class Common {
         })
         .catch(error => {
             this.alert(error.message, true );
+            this.goToList(view.degree);
         });
     }
 
@@ -522,11 +503,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener los grados");
             return response.json();
         })
         .then(data => {
@@ -598,11 +576,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido eliminar el grado");
             return response.json();
         })
         .then(data => {
@@ -622,11 +597,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener los curso del grado");
             return response.json();
         })
         .then(data => {
@@ -648,11 +620,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido obtener el curso");
             return response.json();
         })
         .then(data => {
@@ -660,6 +629,7 @@ export default class Common {
         })
         .catch(error => {
             this.alert(error.message, true );
+            this.goToList(view.course);
         });
     }
 
@@ -672,11 +642,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener los cursos");
             return response.json();
         })
         .then(data => {
@@ -748,11 +715,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido eliminar el curso");
             return response.json();
         })
         .then(data => {
@@ -772,11 +736,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener las asignaturas del curso");
             return response.json();
         })
         .then(data => {
@@ -799,11 +760,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido obtener la asignatura");
             return response.json();
         })
         .then(data => {
@@ -811,6 +769,7 @@ export default class Common {
         })
         .catch(error => {
             this.alert(error.message, true );
+            this.goToList(view.subject);
         });
     }
 
@@ -823,11 +782,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener las asignaturas");
             return response.json();
         })
         .then(data => {
@@ -900,11 +856,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido eliminar la asignatura");
             return response.json();
         })
         .then(data => {
@@ -924,11 +877,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener las inscripciones de la asignatura");
             return response.json();
         })
         .then(data => {
@@ -950,11 +900,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido obtener el examen");
             return response.json();
         })
         .then(data => {
@@ -962,6 +909,7 @@ export default class Common {
         })
         .catch(error => {
             this.alert(error.message, true );
+            this.goToList(view.exam);
         });
     }
 
@@ -974,11 +922,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener los examenes");
             return response.json();
         })
         .then(data => {
@@ -1050,11 +995,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se ha podido eliminar el examen");
             return response.json();
         })
         .then(data => {
@@ -1076,11 +1018,8 @@ export default class Common {
             },
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error(errorData.message || "Error desconocido");
-                });
-            }
+            if (!response.ok) 
+                throw new Error("No se han podido obtener las inscripciones");
             return response.json();
         })
         .then(data => {
@@ -1159,8 +1098,11 @@ export default class Common {
     
     static errorInputs(errors) {
         for (let key in errors) {
-            const input = document.querySelector(`input[name="${key}"]`);
-            if (!input) continue; 
+            let input = document.querySelector(`input[name="${key}"]`);
+            if (!input) {
+                input = document.querySelector(`select[name="${key}"]`);
+                if(!input) continue;
+            } 
     
             const nextElem = input.nextElementSibling;
             if (nextElem && nextElem.tagName === 'P' && nextElem.style.color === 'red') {
@@ -1176,6 +1118,12 @@ export default class Common {
     
             input.addEventListener('input', () => p.remove());
         }
+    }
+
+    static goToList(page){
+        setTimeout( () => {
+            window.location.href = page;
+        },2000);
     }
 
     static addInfoToInputs(obj) {
